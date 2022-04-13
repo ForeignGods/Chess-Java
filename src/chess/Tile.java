@@ -3,18 +3,15 @@ package chess;
 public class Tile 
 {
 	Piece piece;
-	int column;
-	int row;
 	
-	public Tile(int row, int column, Piece piece)
-	{
-		this.row = row;
-		this.column = column;
-		this.piece = piece;
-	}
+	private String color;
+	private int column;
+	private int row;
 	
-	public Tile(int row, int column)
+	
+	public Tile(int row, int column, String color)
 	{
+		this.color = color;
 		this.row = row;
 		this.column = column;
 		this.piece = null;
@@ -38,6 +35,14 @@ public class Tile
 	public int getRow() 
 	{
 		return row;
+	}
+	
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 	
 	

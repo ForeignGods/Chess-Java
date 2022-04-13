@@ -7,12 +7,36 @@ public class Board
 	public Board()
 	{
 		tiles = new Tile[8][8];
-	
+		String color;
+		
 		for (int row = 0; row < tiles.length; row++)
 		{
 			for (int col = 0; col < tiles[row].length; col++)
 		    {
-				tiles[row][col] = new Tile(row, col); 
+				if(col % 2 == 0)
+				{
+					if(row % 2 == 0)
+					{
+						color = "White";
+					}
+					else
+					{
+						color = "Black";
+					}	
+				}
+				else 
+				{
+					if(row % 2 == 0)
+					{
+						color = "Black";
+					}
+				
+					else 
+					{
+						color = "White";
+					}
+				}
+				tiles[row][col] = new Tile(row, col, color); 
 		    }
 		}
 		
@@ -46,7 +70,7 @@ public class Board
 		
 	}
 
-	public Tile[][] getBoard() 
+	public Tile[][] getTiles() 
 	{
 		return tiles;
 	}
