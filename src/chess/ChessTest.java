@@ -2,61 +2,73 @@ package chess;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 public class ChessTest
 {
-	private int count = 0;
-	private JLabel label;
-	private JFrame frame;
-	private JPanel panel;
-	private JButton button;
-	
-    private Color black = Color.decode("#8f0300"); 
-    private Color white = Color.decode("#fad481"); 
 	
 	public ChessTest()
 	{
-		/*
-		frame = new JFrame();
 		
-		panel = new JPanel();
+	}
+	public static void main(String[] args) 
+	{
+		drawBoard();
+		testTiles();
+		testPieceOnTiles();
+	}
+	static void drawBoard()
+	{
+		Board board = new Board();
+	    
+		Color black = Color.decode("#8f0300"); 
+	    Color white = Color.decode("#fad481"); 
+		  
+		JFrame frame = new JFrame();
+		Dimension boardSize = new Dimension(600, 600);
+	 
+		JLayeredPane layeredPane = new JLayeredPane();
+		frame.getContentPane().add(layeredPane);
+		layeredPane.setPreferredSize(boardSize);
+
+		JPanel chessBoard = new JPanel();
+		layeredPane.add(chessBoard, JLayeredPane.DEFAULT_LAYER);
+		chessBoard.setLayout(new GridLayout(8, 8));
+		chessBoard.setPreferredSize(boardSize);
+	  	chessBoard.setBounds(0, 0, boardSize.width, boardSize.height);
+		 	 
 		
-		panel.setBorder(BorderFactory.createEmptyBorder(30,30,10,30));
-		panel.setLayout(new GridLayout(8,8));
-		panel.add(button);
-		panel.add(label);
+		for (int row = 0; row < board.getTiles().length; row++)
+		{
+			for (int col = 0; col < board.getTiles()[row].length; col++)
+		    {
+				JPanel tile = new JPanel(new BorderLayout());
+				chessBoard.add(tile);
+				if(board.getTiles()[row][col].getColor()=="Black")
+				{
+					tile.setBackground(black);
+				}
+				else
+				{
+					tile.setBackground(white);
+				}
+		    }	
+		}   
 		
-		frame.add(panel, BorderLayout.CENTER);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Chess GUI");
 		frame.pack();
 		frame.setVisible(true);
-		*/
 	}
-	
-	public static void main(String[] args) 
-	{
-		ChessTest test = new ChessTest();
-		test.testTiles();
-		test.testPieceOnTiles();
-	}
-	public void testTiles()
+	static void testTiles()
 	{
 		Board board = new Board();
+		
 		for (int row = 0; row < board.getTiles().length; row++)
 		{
 			for (int col = 0; col < board.getTiles()[row].length; col++)
@@ -76,9 +88,10 @@ public class ChessTest
 			System.out.println(); 
 		}
 	}
-	public void testPieceOnTiles()
+	static void testPieceOnTiles()
 	{
 		Board board = new Board();
+		
 		for (int row = 0; row < board.getTiles().length; row++)
 		{
 			for (int col = 0; col < board.getTiles()[row].length; col++)
