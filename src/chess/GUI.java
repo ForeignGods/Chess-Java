@@ -61,9 +61,13 @@ public class GUI
 	private class MyMouseAdapter extends MouseAdapter
 	{
 		private JLabel dragLabel = null;
+		private JLabel droppedLabel = null;
         private int dragLabelWidthDiv2;
         private int dragLabelHeightDiv2;
         private JPanel clickedPanel = null;
+        private JPanel droppedPanel = null;
+        private Piece originPiece;
+        private Piece targetPiece;
 
         @Override
 	    public void mousePressed(MouseEvent me) 
@@ -78,15 +82,15 @@ public class GUI
 			    {
 		        	if (getTiles()[row][col] == chessBoard.getComponentAt(me.getPoint()))
 		            {
-			        	if(board.getTiles()[row][col].getPiece()!=null)
+			        	//if zusammenfügen
+		        		if(board.getTiles()[row][col].getPiece()!=null)
 			        	{
 		        			//get selected Piece
-			        		Piece selectedPiece = board.getTiles()[row][col].getPiece();
-			        		System.out.println(selectedPiece.getType());
+			        		originPiece = board.getTiles()[row][col].getPiece();
+			        		//remove selectedPiece from Origin Tile before moving
+			        		board.getTiles()[row][col].setPiece(null);
 			        		//display possible moves   
-			        		//Only Images are moved underlaying objects are staying the same
 			        	}
-
 		            }
 			    }	
 			} 
@@ -128,20 +132,82 @@ public class GUI
             int y = me.getPoint().y - dragLabelHeightDiv2;
             dragLabel.setLocation(x, y);
             layeredPane.repaint();
-            //System.out.println("mouseDragged: "+x+" "+y);
         }
 
         @Override
         public void mouseReleased(MouseEvent me) 
         {
             
-        	
+	        //if einbauen um fehlermeldung zuvermeiden statt try catch
+	        try
+	        {
+	            droppedPanel = (JPanel) chessBoard.getComponentAt(me.getPoint());
+	            Component[] components = droppedPanel.getComponents();
+	        	if (components[0] instanceof JLabel) 
+		        {
+		
+		            // remove label from panel
+		            droppedLabel = (JLabel) components[0];
+		            droppedPanel.remove(droppedLabel);
+		            droppedPanel.revalidate();
+		            droppedPanel.repaint();
+		
+
+		        }
+	        }
+			catch(Exception e)
+			{
+				System.out.println(e);
+			}
+	        
+
+	        
+			for (int row = 0; row < board.getTiles().length; row++)
+			{
+				for (int col = 0; col < board.getTiles()[row].length; col++)
+			    {
+		        	if (getTiles()[row][col] == chessBoard.getComponentAt(me.getPoint()))
+		            {
+			        	if(board.getTiles()[row][col].getPiece()!=null)
+			        	{
+		        			//get target Piece
+			        		targetPiece = board.getTiles()[row][col].getPiece();
+			        		
+			        		//set Piece of origin tile to null
+			        		board.getTiles()[row][col].setPiece(null);
+			        		
+			        		//set origin Piece to target tile
+			        		board.getTiles()[row][col].setPiece(originPiece);
+
+			        	}
+			        	else
+			        	{
+			        		board.getTiles()[row][col].setPiece(originPiece);
+			        	}
+		            }
+
+		        	//Print all Types
+					try
+					{
+						System.out.print(board.getTiles()[row][col].getPiece().getType());
+					}
+					catch(Exception e)
+					{
+						System.out.print("leer");
+					}
+					
+			    }	
+				System.out.println("");
+			} 
         	if (dragLabel == null) 
             {
                 return;
             }
+        	
+        	
+        	
             layeredPane.remove(dragLabel); // remove dragLabel for drag layer of JLayeredPane
-            JPanel droppedPanel = (JPanel) chessBoard.getComponentAt(me.getPoint());
+
             
             //int x = me.getPoint().x - dragLabelWidthDiv2;
             //int y = me.getPoint().y - dragLabelHeightDiv2;
@@ -179,7 +245,9 @@ public class GUI
                 {
                 	//Write general method for checking tile
                 	//Here get correct tile and check if move possible then setPiece on destination tile and delete piece on origin tile
-                    droppedPanel.add(dragLabel);
+                    //JLabel targetLabel = (JLabel) chessBoard.getComponentAt(me.getPoint());
+                	//droppedPanel.remove(targetLabel);
+                	droppedPanel.add(dragLabel);
                     droppedPanel.revalidate();
                 }
             }

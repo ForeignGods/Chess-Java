@@ -5,7 +5,6 @@ public class Piece
 	private String color;
 	private String type;
 	private boolean alive;
-	private Tile tile;
 	
 	public Piece(String color)
 	{
@@ -37,13 +36,4 @@ public class Piece
 		this.type = type;
 	}
 
-	public Tile getTile() 
-	{
-		return tile;
-	}
-
-	public void setTile(Tile tile) 
-	{
-		this.tile = tile;
-	}
 }
