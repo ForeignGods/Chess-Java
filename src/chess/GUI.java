@@ -9,7 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -55,8 +55,7 @@ public class GUI
         layeredPane.addMouseListener(myMouseAdapter);
         layeredPane.addMouseMotionListener(myMouseAdapter);
 	}
-	
-	//Source for MyMouseAdapter Class
+	//source for MyMouseAdapter class
 	//https://stackoverflow.com/questions/4893265/dragging-a-jlabel-around-the-screen
 	private class MyMouseAdapter extends MouseAdapter
 	{
@@ -67,12 +66,16 @@ public class GUI
         private JPanel clickedPanel = null;
         private JPanel droppedPanel = null;
         private Piece originPiece;
-        private Piece targetPiece;
+        //private Piece targetPiece;
+        private Tile originTile;
+        //private Tile targetTile;
+        private String debugString;
 
         @Override
 	    public void mousePressed(MouseEvent me) 
 	    {
-	        clickedPanel = (JPanel) chessBoard.getComponentAt(me.getPoint());
+        	debugString= null;
+        	clickedPanel = (JPanel) chessBoard.getComponentAt(me.getPoint());
 	        Component[] components = clickedPanel.getComponents();
 	        
 	        
@@ -80,22 +83,58 @@ public class GUI
 			{
 				for (int col = 0; col < board.getTiles()[row].length; col++)
 			    {
-		        	if (getTiles()[row][col] == chessBoard.getComponentAt(me.getPoint()))
-		            {
-			        	//if zusammenfügen
-		        		if(board.getTiles()[row][col].getPiece()!=null)
-			        	{
-		        			//get selected Piece
-			        		originPiece = board.getTiles()[row][col].getPiece();
-			        		//remove selectedPiece from Origin Tile before moving
-			        		board.getTiles()[row][col].setPiece(null);
-			        		//display possible moves   
-			        	}
-		            }
+		        	if (getTiles()[row][col] == chessBoard.getComponentAt(me.getPoint())&&board.getTiles()[row][col].getPiece()!=null)
+		        	{
+	        			//get selected Piece
+		        		originPiece = board.getTiles()[row][col].getPiece();
+		        		originTile = board.getTiles()[row][col];
+				        
+		        		switch (originPiece.getType())
+				        {
+				            case "Pawn":
+				            	
+				                break;
+				            case "Rook":
+				            	ArrayList<Tile> possibleRookMoves = originPiece.getMoves(board, originTile);
+			        			for(Tile tile : possibleRookMoves)
+			        			{
+			        				System.out.println("Rook moves:" + tile.getColumn()+" "+tile.getRow());
+			        			}
+				                break;
+				            case "Knight":
+				            	ArrayList<Tile> possibleKnightMoves = originPiece.getMoves(board, originTile);
+			        			for(Tile tile : possibleKnightMoves)
+			        			{
+			        				System.out.println("Knight moves:" + tile.getColumn()+" "+tile.getRow());
+			        			}
+				                break;      
+				            case "Bishop":
+				            	ArrayList<Tile> possibleBishopMoves = originPiece.getMoves(board, originTile);
+			        			for(Tile tile : possibleBishopMoves)
+			        			{
+			        				System.out.println("Bishop moves:" + tile.getColumn()+" "+tile.getRow());
+			        			}
+				                break;
+				            case "King":
+				            	ArrayList<Tile> possibleKingMoves = originPiece.getMoves(board, originTile);
+			        			for(Tile tile : possibleKingMoves)
+			        			{
+			        				System.out.println("King moves:" + tile.getColumn()+" "+tile.getRow());
+			        			}
+				                break;
+				            case "Queen":
+				            	ArrayList<Tile> possibleQueenMoves = originPiece.getMoves(board, originTile);
+			        			for(Tile tile : possibleQueenMoves)
+			        			{
+			        				System.out.println("Queen moves:" + tile.getColumn()+" "+tile.getRow());
+			        			}
+				                break;
+				        }
+		        		//remove selectedPiece from Origin Tile before moving
+		        		board.getTiles()[row][col].setPiece(null);
+		        	}
 			    }	
 			} 
-
-	        
 	        if (components.length == 0) 
 	        {
 	            return;
@@ -118,7 +157,6 @@ public class GUI
 	            dragLabel.setLocation(x, y);
 	            layeredPane.add(dragLabel, JLayeredPane.DRAG_LAYER);
 	            layeredPane.repaint();
-	            System.out.println("mousePressed: "+x+" "+y);
 	        }
 	    }
         @Override
@@ -133,35 +171,27 @@ public class GUI
             dragLabel.setLocation(x, y);
             layeredPane.repaint();
         }
-
         @Override
         public void mouseReleased(MouseEvent me) 
         {
-            
-	        //if einbauen um fehlermeldung zuvermeiden statt try catch
+        	//if einbauen um fehlermeldung zuvermeiden statt try catch
 	        try
 	        {
 	            droppedPanel = (JPanel) chessBoard.getComponentAt(me.getPoint());
 	            Component[] components = droppedPanel.getComponents();
 	        	if (components[0] instanceof JLabel) 
 		        {
-		
 		            // remove label from panel
 		            droppedLabel = (JLabel) components[0];
 		            droppedPanel.remove(droppedLabel);
 		            droppedPanel.revalidate();
 		            droppedPanel.repaint();
-		
-
 		        }
 	        }
 			catch(Exception e)
 			{
-				System.out.println(e);
-			}
-	        
-
-	        
+				System.out.println("mouseReleased Component array empty?");
+			}    
 			for (int row = 0; row < board.getTiles().length; row++)
 			{
 				for (int col = 0; col < board.getTiles()[row].length; col++)
@@ -171,7 +201,7 @@ public class GUI
 			        	if(board.getTiles()[row][col].getPiece()!=null)
 			        	{
 		        			//get target Piece
-			        		targetPiece = board.getTiles()[row][col].getPiece();
+			        		//targetPiece = board.getTiles()[row][col].getPiece();
 			        		
 			        		//set Piece of origin tile to null
 			        		board.getTiles()[row][col].setPiece(null);
@@ -185,37 +215,28 @@ public class GUI
 			        		board.getTiles()[row][col].setPiece(originPiece);
 			        	}
 		            }
-
-		        	//Print all Types
+		        	//Build string to print current state of board
 					try
 					{
-						System.out.print(board.getTiles()[row][col].getPiece().getType());
+						debugString = debugString + board.getTiles()[row][col].getPiece().getType();
 					}
 					catch(Exception e)
 					{
-						System.out.print("leer");
+						debugString = debugString + "leer";
 					}
-					
 			    }	
-				System.out.println("");
+				debugString = debugString + '\n';
 			} 
         	if (dragLabel == null) 
             {
                 return;
             }
-        	
-        	
-        	
-            layeredPane.remove(dragLabel); // remove dragLabel for drag layer of JLayeredPane
-
-            
-            //int x = me.getPoint().x - dragLabelWidthDiv2;
-            //int y = me.getPoint().y - dragLabelHeightDiv2;
-            
+            layeredPane.remove(dragLabel); // remove dragLabel for drag layer of JLayeredPane            
             if (droppedPanel == null) 
             {
                 // if off the grid, return label to home
-                clickedPanel.add(dragLabel);
+            	originTile.setPiece(originPiece);
+            	clickedPanel.add(dragLabel);
                 clickedPanel.revalidate();
             } 
             else 
@@ -234,39 +255,40 @@ public class GUI
                         }
                     }
                 }
-
                 if (r == -1 || c == -1) 
                 {
                     // if off the grid, return label to home
-                    clickedPanel.add(dragLabel);
+                    originTile.setPiece(originPiece);
+                	clickedPanel.add(dragLabel);
                     clickedPanel.revalidate();
                 } 
                 else 
                 {
-                	//Write general method for checking tile
                 	//Here get correct tile and check if move possible then setPiece on destination tile and delete piece on origin tile
-                    //JLabel targetLabel = (JLabel) chessBoard.getComponentAt(me.getPoint());
-                	//droppedPanel.remove(targetLabel);
                 	droppedPanel.add(dragLabel);
                     droppedPanel.revalidate();
                 }
             }
-
             layeredPane.repaint();
+            originPiece=null;
             dragLabel = null;
+            
+            //System.out.println(debugString);//prints Chessboard
         }
     }
-	    
 	public void drawBoard()
 	{
 		Color black = Color.decode("#8f0300"); 
 	    Color white = Color.decode("#fad481"); 
+	    
 		for (int row = 0; row < board.getTiles().length; row++)
 		{
 			for (int col = 0; col < board.getTiles()[row].length; col++)
 		    {
 				tiles[row][col] = new JPanel(new GridBagLayout());//!PanelGrid
+
 				chessBoard.add(tiles[row][col]);//!backingPanel
+				
 				if(board.getTiles()[row][col].getColor()=="Black")
 				{
 					tiles[row][col].setBackground(black);
@@ -351,28 +373,30 @@ public class GUI
 			}	
 		}
 	}
-
-	public JFrame getFrame() {
+	public JFrame getFrame() 
+	{
 		return frame;
 	}
-
-	public Dimension getBoardSize() {
+	public Dimension getBoardSize() 
+	{
 		return boardSize;
 	}
 
-	public JLayeredPane getLayeredPane() {
+	public JLayeredPane getLayeredPane() 
+	{
 		return layeredPane;
 	}
-
-	public JPanel getChessBoard() {
+	public JPanel getChessBoard() 
+	{
 		return chessBoard;
 	}
 
-	public JPanel[][] getTiles() {
+	public JPanel[][] getTiles() 
+	{
 		return tiles;
 	}
-
-	public Board getBoard() {
+	public Board getBoard() 
+	{
 		return board;
 	}
 }
