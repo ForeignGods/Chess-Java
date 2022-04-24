@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -190,7 +191,7 @@ public class GUI
 	        }
 			catch(Exception e)
 			{
-				System.out.println("mouseReleased Component array empty?");
+				//System.out.println("mouseReleased Component array empty?");
 			}    
 			for (int row = 0; row < board.getTiles().length; row++)
 			{
@@ -278,8 +279,8 @@ public class GUI
     }
 	public void drawBoard()
 	{
-		Color black = Color.decode("#8f0300"); 
-	    Color white = Color.decode("#fad481"); 
+		Color black = Color.decode("#000000"); 
+	    Color white = Color.decode("#FFFFFF"); 
 	    
 		for (int row = 0; row < board.getTiles().length; row++)
 		{
@@ -314,22 +315,22 @@ public class GUI
 				        switch (board.getTiles()[row][col].getPiece().getType())
 				        {
 				            case "Pawn":
-				            	path="src\\chess\\imgs\\PawnWhite.png";
+				            	path="src\\chess\\imgs\\PawnWhite.gif";
 				                break;
 				            case "Rook":
-				            	path="src\\chess\\imgs\\RookWhite.png";
+				            	path="src\\chess\\imgs\\RookWhite.gif";
 				                break;
 				            case "Knight":
-				            	path="src\\chess\\imgs\\KnightWhite.png";
+				            	path="src\\chess\\imgs\\KnightWhite.gif";
 				                break;      
 				            case "Bishop":
-				            	path="src\\chess\\imgs\\BishopWhite.png";
+				            	path="src\\chess\\imgs\\BishopWhite.gif";
 				                break;
 				            case "King":
-				            	path="src\\chess\\imgs\\KingWhite.png";
+				            	path="src\\chess\\imgs\\KingWhite.gif";
 				                break;
 				            case "Queen":
-				            	path="src\\chess\\imgs\\QueenWhite.png";
+				            	path="src\\chess\\imgs\\QueenWhite.gif";
 				                break;
 				        }	
 					}
@@ -338,31 +339,36 @@ public class GUI
 				        switch (board.getTiles()[row][col].getPiece().getType())
 				        {
 				            case "Pawn":
-				            	path="src\\chess\\imgs\\PawnBlack.png";
+				            	path="src\\chess\\imgs\\PawnBlack.gif";
 				                break;
 				            case "Rook":
-				            	path="src\\chess\\imgs\\RookBlack.png";
+				            	path="src\\chess\\imgs\\RookBlack.gif";
 				                break;
 				            case "Knight":
-				            	path="src\\chess\\imgs\\KnightBlack.png";
+				            	path="src\\chess\\imgs\\KnightBlack.gif";
 				                break;      
 				            case "Bishop":
-				            	path="src\\chess\\imgs\\BishopBlack.png";
+				            	path="src\\chess\\imgs\\BishopBlack.gif";
 				                break;
 				            case "King":
-				            	path="src\\chess\\imgs\\KingBlack.png";
+				            	path="src\\chess\\imgs\\KingBlack.gif";
 				                break;
 				            case "Queen":
-				            	path="src\\chess\\imgs\\QueenBlack.png";
+				            	path="src\\chess\\imgs\\QueenBlack.gif";
 				                break;
 				        }
 					}
 					try
 					{
-						File imgFile = new File(path);
-						BufferedImage img = ImageIO.read(imgFile);
-						JLabel pic = new JLabel(new ImageIcon(img));
-						tiles[row][col].add(pic);
+						//File imgFile = new File(path);
+						//BufferedImage img = ImageIO.read(imgFile);
+					    Icon icon = new ImageIcon(path);
+					    JLabel gif = new JLabel(icon);
+						//JLabel pic = new JLabel(new ImageIcon(img));
+						tiles[row][col].add(gif);
+						
+					 
+
 					}
 					catch(Exception e)
 					{
