@@ -3,12 +3,17 @@ package chess;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -24,7 +29,11 @@ public class GUI
 	private Dimension boardSize;
 	private JLayeredPane layeredPane;
 	private JPanel chessBoard;
-	private JPanel[][] tiles;
+	//private JPanel[][] tiles;
+	private BackgroundPanel[][] tiles;
+	
+
+
 	
 	private Board board;
 	
@@ -35,7 +44,7 @@ public class GUI
 		this.layeredPane = new JLayeredPane();
 		chessBoard = new JPanel();
 		
-		tiles = new JPanel[8][8];
+		tiles = new BackgroundPanel[8][8];
 		
 		this.board = board;
 		
@@ -277,6 +286,39 @@ public class GUI
             //System.out.println(debugString);//prints Chessboard
         }
     }
+
+	class BackgroundPanel extends JPanel 
+	{
+	
+	    /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		BufferedImage image;
+	
+	    public BackgroundPanel(BufferedImage image) 
+	    {
+	        this.image = image;
+	    }
+	
+	    @Override
+	    protected void paintComponent(Graphics g) 
+	    {
+	        super.paintComponent(g);
+	        g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
+	    }
+	
+	    @Override
+	    public Dimension getPreferredSize() 
+	    {
+	        Dimension d = super.getPreferredSize();
+	
+	        int w = d.width > image.getWidth() ? d.width : image.getWidth();
+	        int h = d.height > image.getHeight() ? d.height : image.getHeight();
+	
+	        return new Dimension(w, h);
+	    }
+	}
 	public void drawBoard()
 	{
 		Color black = Color.decode("#000000"); 
@@ -286,18 +328,32 @@ public class GUI
 		{
 			for (int col = 0; col < board.getTiles()[row].length; col++)
 		    {
-				tiles[row][col] = new JPanel(new GridBagLayout());//!PanelGrid
 
-				chessBoard.add(tiles[row][col]);//!backingPanel
-				
+	            BufferedImage bi1 = null;
+	            String path = null;
 				if(board.getTiles()[row][col].getColor()=="Black")
 				{
-					tiles[row][col].setBackground(black);
+					path ="src\\chess\\imgs\\TileBlack.png" ;
 				}
 				else
 				{
-					tiles[row][col].setBackground(white);
+					path ="src\\chess\\imgs\\TileWhite.png" ;
 				}
+            	try 
+				{
+					File imgFile = new File(path);
+					bi1 = ImageIO.read(imgFile);
+				} 
+				catch (IOException e) 
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	            tiles[row][col] = new BackgroundPanel(bi1);
+	            chessBoard.add(tiles[row][col]);
+
+	
+
 		    }	
 		} 
 	}
