@@ -4,16 +4,14 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -58,7 +56,7 @@ public class GUI
 	  	chessBoard.setBounds(0, 0, boardSize.width, boardSize.height);
 	  	
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Chess GUI");
+		frame.setTitle("Chess");
 		frame.setVisible(true);
         
 		MyMouseAdapter myMouseAdapter = new MyMouseAdapter();
@@ -290,13 +288,10 @@ public class GUI
 	class BackgroundPanel extends JPanel 
 	{
 	
-	    /**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
-		BufferedImage image;
+		Image image;
 	
-	    public BackgroundPanel(BufferedImage image) 
+	    public BackgroundPanel(Image image) 
 	    {
 	        this.image = image;
 	    }
@@ -306,8 +301,9 @@ public class GUI
 	    {
 	        super.paintComponent(g);
 	        g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
+	        
 	    }
-	
+	    /*
 	    @Override
 	    public Dimension getPreferredSize() 
 	    {
@@ -318,42 +314,57 @@ public class GUI
 	
 	        return new Dimension(w, h);
 	    }
+	    */
+	}
+	public int getRandomNumber(int min, int max) 
+	{
+	    return (int) ((Math.random() * (max - min)) + min);
 	}
 	public void drawBoard()
 	{
-		Color black = Color.decode("#000000"); 
-	    Color white = Color.decode("#FFFFFF"); 
+	    ArrayList<String> tileBlack = new ArrayList<String>();
+	    tileBlack.add("src\\chess\\imgs\\TileBlack1.gif");
+	    tileBlack.add("src\\chess\\imgs\\TileBlack2.gif");
+	    tileBlack.add("src\\chess\\imgs\\TileBlack3.gif");
+	    tileBlack.add("src\\chess\\imgs\\TileBlack4.gif");
+	    tileBlack.add("src\\chess\\imgs\\TileBlack5.gif");
+	    tileBlack.add("src\\chess\\imgs\\TileBlack6.gif");
+	    tileBlack.add("src\\chess\\imgs\\TileBlack7.gif");
+	    tileBlack.add("src\\chess\\imgs\\TileBlack8.gif");
 	    
-		for (int row = 0; row < board.getTiles().length; row++)
+	    ArrayList<String> tileWhite = new ArrayList<String>();
+	    tileWhite.add("src\\chess\\imgs\\TileWhite1.gif");
+	    tileWhite.add("src\\chess\\imgs\\TileWhite2.gif");
+	    tileWhite.add("src\\chess\\imgs\\TileWhite3.gif");
+	    tileWhite.add("src\\chess\\imgs\\TileWhite4.gif");
+	    tileWhite.add("src\\chess\\imgs\\TileWhite5.gif");
+	    tileWhite.add("src\\chess\\imgs\\TileWhite6.gif");
+	    tileWhite.add("src\\chess\\imgs\\TileWhite7.gif");
+	    tileWhite.add("src\\chess\\imgs\\TileWhite8.gif");
+	    
+		
+	    for (int row = 0; row < board.getTiles().length; row++)
 		{
 			for (int col = 0; col < board.getTiles()[row].length; col++)
 		    {
 
 	            BufferedImage bi1 = null;
+	            Image image = null;
 	            String path = null;
 				if(board.getTiles()[row][col].getColor()=="Black")
 				{
-					path ="src\\chess\\imgs\\TileBlack.png" ;
+					
+					path = tileBlack.get(getRandomNumber(0, 7));
 				}
 				else
 				{
-					path ="src\\chess\\imgs\\TileWhite.png" ;
+					path = tileWhite.get(getRandomNumber(0, 7));
 				}
-            	try 
-				{
-					File imgFile = new File(path);
-					bi1 = ImageIO.read(imgFile);
-				} 
-				catch (IOException e) 
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	            tiles[row][col] = new BackgroundPanel(bi1);
+
+					
+				image = Toolkit.getDefaultToolkit().createImage(path);
+	            tiles[row][col] = new BackgroundPanel(image);
 	            chessBoard.add(tiles[row][col]);
-
-	
-
 		    }	
 		} 
 	}
@@ -416,15 +427,9 @@ public class GUI
 					}
 					try
 					{
-						//File imgFile = new File(path);
-						//BufferedImage img = ImageIO.read(imgFile);
 					    Icon icon = new ImageIcon(path);
 					    JLabel gif = new JLabel(icon);
-						//JLabel pic = new JLabel(new ImageIcon(img));
 						tiles[row][col].add(gif);
-						
-					 
-
 					}
 					catch(Exception e)
 					{
