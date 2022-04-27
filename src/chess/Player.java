@@ -1,6 +1,5 @@
 package chess;
 
-public class Player 
-{
+public class Player {
 
 }

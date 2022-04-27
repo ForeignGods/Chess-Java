@@ -1,47 +1,39 @@
 package chess;
 
-public class Move 
-{
+public class Move {
 	Tile originTile;
 	Tile destinationTile;
 	boolean valid;
 	Piece movingPiece;
 	Piece capturingPiece;
 	Player currentPlayer;
-	
-	public void changeCurrentPlayer(Player player)
-	{
-		
+
+	public void changeCurrentPlayer(Player player) {
+
 	}
-	
-	public Tile getOriginTile() 
-	{
+
+	public Tile getOriginTile() {
 		return originTile;
 	}
-	
-	public Tile getDestinationTile() 
-	{
+
+	public Tile getDestinationTile() {
 		return destinationTile;
 	}
-	
-	public boolean isValid() 
-	{
+
+	public boolean isValid() {
 		return valid;
 	}
-	
-	public Piece getMovingPiece() 
-	{
+
+	public Piece getMovingPiece() {
 		return movingPiece;
 	}
-	
-	public Piece getCapturingPiece() 
-	{
+
+	public Piece getCapturingPiece() {
 		return capturingPiece;
 	}
 
-	public Player getCurrentPlayer() 
-	{
+	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}
-	
+
 }
