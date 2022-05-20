@@ -1,20 +1,27 @@
 package chess;
 
-import java.util.ArrayList;
-
+/**
+ * 
+ * @author Pascal
+ *
+ */
 public class Rook extends Piece {
 	public Rook(String color) {
 		super(color);
 		super.setType("Rook");
 	}
 
-	// source for possible moves Rook
+	// Inspiration for possible moves Rook
 	// https://github.com/shd101wyy/Chess/blob/master/src/piece/Rook.java
-	public ArrayList<Tile> getMoves(Board board, Tile originTile) {
+	/**
+	 * @return Tile [][]
+	 */
+	@Override
+	public Tile[][] getMoves(Board board, Tile originTile) {
 		int originX = originTile.getRow();
 		int originY = originTile.getColumn();
 
-		ArrayList<Tile> moves = new ArrayList<Tile>();
+		Tile[][] moves = new Tile[8][8];
 
 		// check left
 		for (int i = originX - 1; i >= 0; i--) {

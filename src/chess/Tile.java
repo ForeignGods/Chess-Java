@@ -1,5 +1,10 @@
 package chess;
 
+/**
+ * 
+ * @author Pascal
+ *
+ */
 public class Tile {
 	Piece piece;
 
@@ -7,6 +12,12 @@ public class Tile {
 	private int column;
 	private int row;
 
+	/**
+	 * 
+	 * @param row
+	 * @param column
+	 * @param color
+	 */
 	public Tile(int row, int column, String color) {
 		this.color = color;
 		this.row = row;
@@ -14,26 +25,50 @@ public class Tile {
 		this.piece = null;
 	}
 
+	/**
+	 * 
+	 * @return Piece
+	 */
 	public Piece getPiece() {
 		return piece;
 	}
 
+	/**
+	 * 
+	 * @param piece
+	 */
 	public void setPiece(Piece piece) {
 		this.piece = piece;
 	}
 
+	/**
+	 * 
+	 * @return int
+	 */
 	public int getColumn() {
 		return column;
 	}
 
+	/**
+	 * 
+	 * @return int
+	 */
 	public int getRow() {
 		return row;
 	}
 
+	/**
+	 * 
+	 * @return String
+	 */
 	public String getColor() {
 		return color;
 	}
 
+	/**
+	 * 
+	 * @param color
+	 */
 	public void setColor(String color) {
 		this.color = color;
 	}

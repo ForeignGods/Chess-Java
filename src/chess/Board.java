@@ -1,12 +1,21 @@
 package chess;
 
+/**
+ *
+ * @author Pascal
+ *
+ */
 public class Board {
 	private Tile[][] tiles;
 
+	/**
+	 * @author Pascal
+	 */
 	public Board() {
 		tiles = new Tile[8][8];
 		String color;
 
+		// created Tiles with correct color and adds them to tiles[][]
 		for (int row = 0; row < tiles.length; row++) {
 			for (int col = 0; col < tiles[row].length; col++) {
 				if (col % 2 == 0) {
@@ -28,6 +37,7 @@ public class Board {
 			}
 		}
 
+		// adding newly created white pieces to tiles
 		tiles[0][0].setPiece(new Rook("White"));
 		tiles[0][1].setPiece(new Knight("White"));
 		tiles[0][2].setPiece(new Bishop("White"));
@@ -41,6 +51,7 @@ public class Board {
 			tiles[1][i].setPiece(new Pawn("White"));
 		}
 
+		// adding newly created black pieces to tiles
 		tiles[7][0].setPiece(new Rook("Black"));
 		tiles[7][1].setPiece(new Knight("Black"));
 		tiles[7][2].setPiece(new Bishop("Black"));
@@ -56,6 +67,10 @@ public class Board {
 
 	}
 
+	/**
+	 *
+	 * @return Tile[][]
+	 */
 	public Tile[][] getTiles() {
 		return tiles;
 	}

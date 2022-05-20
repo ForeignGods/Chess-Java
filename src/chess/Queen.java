@@ -1,20 +1,27 @@
 package chess;
 
-import java.util.ArrayList;
-
+/**
+ * 
+ * @author Pascal
+ *
+ */
 public class Queen extends Piece {
 	public Queen(String color) {
 		super(color);
 		super.setType("Queen");
 	}
 
-	// source for possible moves Queen
+	// Inspiration for possible moves Queen
 	// https://github.com/shd101wyy/Chess/blob/master/src/piece/Queen.java
-	public ArrayList<Tile> getMoves(Board board, Tile originTile) {
+	/**
+	 * @return Tile [][]
+	 */
+	@Override
+	public Tile[][] getMoves(Board board, Tile originTile) {
 		int originX = originTile.getRow();
 		int originY = originTile.getColumn();
 
-		ArrayList<Tile> moves = new ArrayList<Tile>();
+		Tile[][] moves = new Tile[8][8];
 
 		int i, j;
 		// go direction of left top

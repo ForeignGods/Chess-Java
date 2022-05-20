@@ -1,20 +1,31 @@
 package chess;
 
-import java.util.ArrayList;
-
+/**
+ *
+ * @author Pascal
+ *
+ */
 public class Bishop extends Piece {
+	/**
+	 *
+	 * @param color
+	 */
 	public Bishop(String color) {
 		super(color);
 		super.setType("Bishop");
 	}
 
-	// source for possible moves Bishop
+	// Inspiration for possible moves Bishop
 	// https://github.com/shd101wyy/Chess/blob/master/src/piece/Bishop.java
-	public ArrayList<Tile> getMoves(Board board, Tile originTile) {
+	/**
+	 * @return Tile[][]
+	 */
+	@Override
+	public Tile[][] getMoves(Board board, Tile originTile) {
 		int originX = originTile.getRow();
 		int originY = originTile.getColumn();
 
-		ArrayList<Tile> moves = new ArrayList<Tile>();
+		Tile[][] moves = new Tile[8][8];
 
 		int i, j;
 		// go direction of left top
