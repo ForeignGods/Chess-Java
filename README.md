@@ -1,8 +1,5 @@
 # Java-Chess
 
-## Current GUI & Move Validation
-In progress
+## GUI 
 
-
-
-![eclipse_kLmIZYgCQR](https://user-images.githubusercontent.com/78089013/164987736-cce297d7-393b-4fd6-936c-26bc0f579478.gif)
+![ezgif com-gif-maker(3)](https://user-images.githubusercontent.com/78089013/169666808-d57e4ca4-6bfe-4910-81dd-30df15966e65.gif)
